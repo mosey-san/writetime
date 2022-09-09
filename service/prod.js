@@ -2,7 +2,7 @@ const { execSync, spawn } = require('child_process');
 const { writeLog, writeError } = require('../log');
 const babelify = require('./babelify');
 
-execSync('webpack --mode production');
+execSync('./node_modules/webpack-cli/bin/cli.js --mode production');
 babelify();
 
 const child = spawn('node', ['./build/server/index.js']);
