@@ -6,6 +6,7 @@ import { getENV } from '../utils/env';
 import { dechipher } from '../crypto/dechipher';
 import crypto from 'crypto';
 import { JWT } from '../crypto/jwt';
+import { writeError } from '@root/log';
 
 interface IUserInfo {
   id: string;
@@ -39,7 +40,7 @@ export async function rootPathMiddleware(
       );
       data = response.data;
     } catch (error) {
-      res.cookie('error', JSON.stringify(error));
+      writeError(__dirname, JSON.stringify(error));
     }
 
     if (data) {
@@ -48,7 +49,7 @@ export async function rootPathMiddleware(
         const response = await user.info(data.access_token);
         userInfo = response.data;
       } catch (error) {
-        res.cookie('error', JSON.stringify(error));
+        writeError(__dirname, JSON.stringify(error));
       }
       let dbUser;
       try {

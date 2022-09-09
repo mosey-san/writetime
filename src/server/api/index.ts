@@ -2,6 +2,9 @@ import { ITokenRes } from '../../common/types';
 import axios from 'axios';
 import { getENV } from '../utils/env';
 
+const prefix =
+  getENV('IS_DEV') === 'true' ? 'https://cors-anywhere.herokuapp.com/' : '';
+
 export const yaToken = {
   fromCode(code: string, host: string) {
     const client_id = getENV('CLIENT_ID_FILE');
@@ -10,7 +13,7 @@ export const yaToken = {
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
     return axios.post<ITokenRes>(
-      'https://cors-anywhere.herokuapp.com/https://oauth.yandex.ru/token',
+      prefix + 'https://oauth.yandex.ru/token',
       params,
       {
         headers: {
@@ -30,7 +33,7 @@ export const yaToken = {
     params.append('grant_type', 'refresh_token');
     params.append('refresh_token', token);
     return axios.post<ITokenRes>(
-      'https://cors-anywhere.herokuapp.com/https://oauth.yandex.ru/token',
+      prefix + 'https://oauth.yandex.ru/token',
       params,
       {
         headers: {

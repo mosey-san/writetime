@@ -5,4 +5,6 @@ services:
     image: node:current-alpine
     volumes:
       - ./:/app
+    environment:
+      IS_DEV: true
     command: sh -c "npm install && ./node_modules/nodemon/bin/nodemon.js -L ./build/server/index.js"
