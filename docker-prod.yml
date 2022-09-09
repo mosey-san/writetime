@@ -1,0 +1,6 @@
+version: '3.8'
+
+services:
+  timeline:
+    image: mosey/timeline
+    command: sh -c "npm install && npm install -g @babel/core @babel/cli && node "

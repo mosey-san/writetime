@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    restart: always
+    secrets:
+      - mongo_user
+      - mongo_pwd
+    volumes:
+      - mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME_FILE: /run/secrets/mongo_user
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongo_pwd
+      MONGO_INITDB_DATABASE: admin
+  timeline:
+    restart: always
+    working_dir: /app
+    depends_on:
+      - mongo
+    ports:
+      - 80:80
+      - 443:443
+    secrets:
+      - mongo_user
+      - mongo_pwd
+      - client_id
+      - client_secret
+      - secret_key
+    environment:
+      MONGO_USERNAME_FILE: /run/secrets/mongo_user
+      MONGO_PASSWORD_FILE: /run/secrets/mongo_pwd
+      CLIENT_ID_FILE: /run/secrets/client_id
+      CLIENT_SECRET_FILE: /run/secrets/client_secret
+      SECRET_KEY_FILE: /run/secrets/secret_key
+
+secrets:
+  mongo_user:
+    file: ./secrets/.mongo_user
+  mongo_pwd:
+    file: ./secrets/.mongo_pwd
+  client_id:
+    file: ./secrets/.client_id
+  client_secret:
+    file: ./secrets/.client_secret
+  secret_key:
+    file: ./secrets/.secret_key
+
+volumes:
+  mongo:

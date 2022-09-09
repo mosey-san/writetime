@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  timeline:
+    image: node:current-alpine
+    volumes:
+      - ./:/app
+    command: sh -c "npm install && ./node_modules/nodemon/bin/nodemon.js -L ./build/server/index.js"

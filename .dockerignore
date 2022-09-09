@@ -1,0 +1,5 @@
+/node_modules/
+/secrets/
+/log/app.log
+/log/error.log
+/build/

@@ -1,0 +1,15 @@
+@function fromTo($from, $to) {
+  $k: ($to - $from) / (1440 - 375);
+  $b: $from - 375 * $k;
+  @return "calc(" + $k * 100 + "vw + " + $b + "px)";
+}
+@function fromSizeTo($from, $size, $to) {
+  $k: ($to - $from) / (1440 - $size);
+  $b: $from - $size * $k;
+  @return "calc(" + $k * 100 + "vw + " + $b + "px)";
+}
+@function fromSizeToSize($from, $sizeFrom, $to, $sizeTo) {
+  $k: ($to - $from) / ($sizeTo - $sizeFrom);
+  $b: $from - $sizeFrom * $k;
+  @return "calc(" + $k * 100 + "vw + " + $b + "px)";
+}

@@ -1,0 +1,20 @@
+{
+  "port": 5320,
+  "src": {
+    "root": "./src/client",
+    "html": "./src/client/templates",
+    "scss": "./src/client/styles",
+    "js": "./src/client/scripts",
+    "img": "./src/client/img",
+    "icons": "./src/client/icons",
+    "fonts": "./src/client/fonts"
+  },
+  "build": {
+    "root": "./build/client",
+    "html": "./build/client/templates",
+    "css": "./build/client/styles",
+    "js": "./build/client/scripts",
+    "img": "./build/client/img",
+    "fonts": "./build/client/fonts"
+  }
+}
