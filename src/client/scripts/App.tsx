@@ -35,7 +35,7 @@ const App = () => {
   }
 
   function login() {
-    location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${cookie.client_id}&redirect_uri=https://localhost:5320`;
+    location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${cookie.client_id}&redirect_uri=${location.origin}`;
   }
 
   return (
