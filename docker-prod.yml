@@ -2,5 +2,5 @@ version: '3.8'
 
 services:
   timeline:
-    image: moseysan/timeline
+    image: moseysan/writetime
     command: sh -c "node service/prod"

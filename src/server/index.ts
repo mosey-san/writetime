@@ -13,8 +13,12 @@ config();
 const privateKey = fs.readFileSync('./sslcert/key.pem', 'utf8');
 const certificate = fs.readFileSync('./sslcert/cert.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
+const httpServer = http.createServer(
+  express().use('*', (req, res) => {
+    res.redirect('https://' + req.headers.host + req.url);
+  })
+);
 const app = express();
-const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
 
 app.use(express.json());

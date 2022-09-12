@@ -135,11 +135,16 @@ export async function rootPathMiddleware(
           res.cookie(
             'JWT',
             JWT.sign(jwtVerify.payload, {
-              expiresIn: 30,
-            })
+              expiresIn: 30 * 60,
+            }),
+            {
+              maxAge: Number(dbUser.app.expires_in),
+              secure: true,
+              sameSite: 'lax',
+            }
           );
           res.cookie('RT', JWT.sign({ refresh_token: chipher(newRT) }), {
-            maxAge: Number(dbUser.app.expires_in) * 1000 * 2,
+            maxAge: Number(dbUser.app.expires_in),
             httpOnly: true,
             secure: true,
             sameSite: 'lax',
