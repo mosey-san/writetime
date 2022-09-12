@@ -10,7 +10,7 @@ const app = new Schema({
     required: true,
   },
   expires_in: {
-    type: String,
+    type: Number,
     required: true,
   },
 });

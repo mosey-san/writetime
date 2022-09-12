@@ -8,3 +8,9 @@ services:
     environment:
       IS_DEV: true
     command: sh -c "npm install && ./node_modules/nodemon/bin/nodemon.js -L ./build/server/index.js"
+
+secrets:
+  priv_key:
+    file: ./secrets/key.pem
+  sert:
+    file: ./secrets/cert.pem

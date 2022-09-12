@@ -27,12 +27,16 @@ services:
       - client_id
       - client_secret
       - secret_key
+      - priv_key
+      - sert
     environment:
       MONGO_USERNAME_FILE: /run/secrets/mongo_user
       MONGO_PASSWORD_FILE: /run/secrets/mongo_pwd
       CLIENT_ID_FILE: /run/secrets/client_id
       CLIENT_SECRET_FILE: /run/secrets/client_secret
       SECRET_KEY_FILE: /run/secrets/secret_key
+      PRIVKEY: /run/secrets/priv_key
+      SERT: /run/secrets/sert
 
 secrets:
   mongo_user:

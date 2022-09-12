@@ -4,3 +4,9 @@ services:
   writetime:
     image: moseysan/writetime
     command: sh -c "node service/prod"
+
+secrets:
+  priv_key:
+    file: /etc/letsencrypt/live/writetime.ru/privkey.pem
+  sert:
+    file: /etc/letsencrypt/live/writetime.ru/fullchain.pem

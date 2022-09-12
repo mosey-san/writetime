@@ -65,9 +65,13 @@ export async function rootPathMiddleware(
 
       try {
         if (dbUser) {
+          dbUser.app.refresh_token = chipher(data.refresh_token);
+          dbUser.app.expires_in = expires;
           dbUser.refresh_tokens.push(chipher(RT));
+          console.log(dbUser);
           await User.updateOne({ id: dbUser.id }, dbUser);
         } else {
+          console.log(expires);
           const user = new User({
             id: Buffer.from(userInfo.id).toString('base64'),
             refresh_tokens: [chipher(RT)],
@@ -96,12 +100,17 @@ export async function rootPathMiddleware(
             default_avatar_id: userInfo.default_avatar_id,
           },
           {
-            expiresIn: 30,
+            expiresIn: 30 * 60,
           }
-        )
+        ),
+        {
+          maxAge: data.expires_in * 1000,
+          secure: true,
+          sameSite: 'lax',
+        }
       );
       res.cookie('RT', JWT.sign({ refresh_token: chipher(RT) }), {
-        maxAge: data.expires_in * 1000 * 2,
+        maxAge: data.expires_in * 1000,
         httpOnly: true,
         secure: true,
         sameSite: 'lax',
@@ -120,10 +129,10 @@ export async function rootPathMiddleware(
         id: Buffer.from(jwtVerify.payload.id).toString('base64'),
       });
       if (dbUser) {
-        const RT = dechipher(rtVerify.payload.refresh_token);
+        const RT = rtVerify.payload.refresh_token;
         const tokensCount = dbUser.refresh_tokens.length;
         dbUser.refresh_tokens = dbUser.refresh_tokens.filter(
-          token => dechipher(token) !== RT
+          token => !(dechipher(token) === dechipher(RT) && token !== RT)
         );
 
         if (dbUser.refresh_tokens.length !== tokensCount) {
@@ -138,13 +147,13 @@ export async function rootPathMiddleware(
               expiresIn: 30 * 60,
             }),
             {
-              maxAge: Number(dbUser.app.expires_in),
+              maxAge: dbUser.app.expires_in - Date.now(),
               secure: true,
               sameSite: 'lax',
             }
           );
           res.cookie('RT', JWT.sign({ refresh_token: chipher(newRT) }), {
-            maxAge: Number(dbUser.app.expires_in),
+            maxAge: dbUser.app.expires_in - Date.now(),
             httpOnly: true,
             secure: true,
             sameSite: 'lax',

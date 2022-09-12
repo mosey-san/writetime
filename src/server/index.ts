@@ -1,4 +1,3 @@
-import { config } from 'dotenv';
 import fs from 'fs';
 import http from 'http';
 import https from 'https';
@@ -9,10 +8,12 @@ import { writeLog, writeError } from '@root/log';
 import mongoose from 'mongoose';
 import { getENV } from './utils/env';
 
-config();
-const privateKey = fs.readFileSync('./sslcert/key.pem', 'utf8');
-const certificate = fs.readFileSync('./sslcert/cert.pem', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
+const privateKey = fs.readFileSync(getENV('PRIVKEY'), 'utf8');
+const certificate = fs.readFileSync(getENV('SERT'), 'utf8');
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+};
 const httpServer = http.createServer(
   express().use('*', (req, res) => {
     res.redirect('https://' + req.headers.host + req.url);
