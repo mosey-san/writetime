@@ -38,5 +38,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+            curl -o docker-compose.yml https://raw.githubusercontent.com/mosey-san/writetime/master/docker-compose.yml
+            curl -o docker-prod.yml https://raw.githubusercontent.com/mosey-san/writetime/master/docker-prod.yml
             docker pull moseysan/writetime
             docker compose -f docker-compose.yml -f docker-prod.yml up -d
